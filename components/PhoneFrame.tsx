@@ -65,17 +65,10 @@ function Bezel({ children }: { children: React.ReactNode }) {
       >
         {/* Inner screen */}
         <div className="relative w-full h-full rounded-[48px] overflow-hidden bg-[var(--color-bg)] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.4)]">
-          {/* Dynamic Island */}
-          <div className="absolute top-2 left-1/2 -translate-x-1/2 z-50 h-[28px] w-[110px] rounded-full bg-black flex items-center justify-end pr-2.5">
-            <div className="w-1.5 h-1.5 rounded-full bg-white/40" />
-          </div>
-          {/* Status bar (decorative) */}
-          <div className="absolute top-0 left-0 right-0 z-40 h-[44px] flex items-center justify-between px-7 text-[12px] font-semibold text-[var(--color-ink)]">
-            <span className="tabular">9:41</span>
-            <span className="opacity-0">spacer</span>
-          </div>
-          {/* App canvas — top inset clears the simulated status bar/notch */}
-          <div className="relative w-full h-full overflow-y-auto no-scrollbar pt-[34px]">
+          {/* Dynamic Island (notch-like) */}
+          <div className="absolute top-2.5 left-1/2 -translate-x-1/2 z-50 h-[26px] w-[100px] rounded-full bg-black pointer-events-none" />
+          {/* App canvas — small top inset to clear the notch */}
+          <div className="relative w-full h-full overflow-y-auto no-scrollbar pt-[40px]">
             {children}
           </div>
         </div>
