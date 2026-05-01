@@ -58,6 +58,7 @@ export function LiveMapInner({ highlight, zoom = 16, interactive = true }: Props
     }).addTo(map);
 
     // Custom HTML markers
+    const markerGroup: L.Marker[] = [];
     garages.forEach((g) => {
       const marker = L.marker([g.lat, g.lng], {
         icon: makePinIcon(g, highlight === g.id),
@@ -67,7 +68,14 @@ export function LiveMapInner({ highlight, zoom = 16, interactive = true }: Props
       marker.on("click", () => {
         router.push(`/garage/${g.id}`);
       });
+      markerGroup.push(marker);
     });
+
+    // Fit map to all garage pins so every garage is visible at once
+    if (markerGroup.length > 0) {
+      const bounds = L.latLngBounds(markerGroup.map((m) => m.getLatLng()));
+      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 16 });
+    }
 
     return () => {
       map.remove();
