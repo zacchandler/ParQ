@@ -71,10 +71,14 @@ export function LiveMapInner({ highlight, zoom = 16, interactive = true }: Props
       markerGroup.push(marker);
     });
 
-    // Fit map to all garage pins so every garage is visible at once
+    // Fit map to all garage pins. Deferred to next frame so the map
+    // container has been measured before fitBounds calculates the zoom.
     if (markerGroup.length > 0) {
       const bounds = L.latLngBounds(markerGroup.map((m) => m.getLatLng()));
-      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 16 });
+      requestAnimationFrame(() => {
+        map.invalidateSize();
+        map.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
+      });
     }
 
     return () => {
