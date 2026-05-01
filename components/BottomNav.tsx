@@ -14,18 +14,19 @@ const tabs = [
 ];
 
 export function BottomNav() {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
+  // trailingSlash:true means pathname can be "/home" or "/home/" — normalize.
+  const path = pathname.replace(/\/+$/, "") || "/home";
 
   return (
     <nav className="fixed bottom-0 inset-x-0 z-[1100] glass border-t border-white/40">
       <div className="grid grid-cols-4 h-16 px-2">
         {tabs.map((tab) => {
           const isActive =
-            pathname === tab.href ||
-            (tab.href === "/home" && pathname === "/home") ||
-            (tab.href === "/schedule" && (pathname.startsWith("/schedule") || pathname.startsWith("/garage"))) ||
-            (tab.href === "/alerts" && pathname.startsWith("/alerts")) ||
-            (tab.href === "/profile" && pathname.startsWith("/profile"));
+            (tab.href === "/home" && (path === "/home" || path === "/spots")) ||
+            (tab.href === "/schedule" && (path.startsWith("/schedule") || path.startsWith("/garage") || path.startsWith("/navigate"))) ||
+            (tab.href === "/alerts" && path.startsWith("/alerts")) ||
+            (tab.href === "/profile" && path.startsWith("/profile"));
           const Icon = tab.icon;
           return (
             <Link

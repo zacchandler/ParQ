@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { motion } from "motion/react";
 import {
-  Calendar, Compass, Search, Settings, ChevronRight, Building2, Clock4, MapPin, Mic, ArrowUpRight,
+  Calendar, Search, ChevronRight, Building2, MapPin, Mic, ArrowUpRight, Clock4,
 } from "lucide-react";
 import { AppHeader } from "@/components/AppHeader";
 import { BottomNav } from "@/components/BottomNav";
 import { LiveMap } from "@/components/LiveMap";
-import { upcomingParkings, garages } from "@/lib/mockData";
+import { upcomingParkings, garages, currentUser } from "@/lib/mockData";
 
 export default function HomePage() {
   const next = garages.find((g) => g.id === "pavia")!;
@@ -100,9 +100,9 @@ export default function HomePage() {
           </h2>
           <div className="grid grid-cols-2 gap-3">
             <ActionTile icon={Calendar} label="Schedule" sub="5 classes" href="/schedule" />
-            <ActionTile icon={Search} label="Find a spot" sub="5 garages" href={`/garage/${next.id}`} />
+            <ActionTile icon={Search} label="Find a spot" sub="Pink Zone access" href="/spots" />
             <ActionTile icon={Mic} label="Voice" sub="ParQ AI" href="/voice" />
-            <ActionTile icon={Settings} label="Settings" sub="& account" href="/profile" />
+            <ActionTile icon={Clock4} label="History" sub={`${currentUser.spotsSaved} parkings`} href="/history" />
           </div>
         </motion.section>
 
