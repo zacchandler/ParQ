@@ -3,12 +3,13 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
-import { MapPin, Navigation, Bookmark, BarChart3, Sparkles } from "lucide-react";
+
+import { MapPin, Navigation, Sparkles } from "lucide-react";
 import { AppHeader } from "@/components/AppHeader";
 import { BottomNav } from "@/components/BottomNav";
 import { LiveMap } from "@/components/LiveMap";
 import { Button } from "@/components/ui/Button";
-import { bestFloorForGarage, openSpotsForGarage, wobble, directionsUrl, type Garage } from "@/lib/mockData";
+import { bestFloorForGarage, openSpotsForGarage, wobble, type Garage } from "@/lib/mockData";
 
 export function GarageDetailClient({ garage }: { garage: Garage }) {
   const [mounted, setMounted] = useState(false);
@@ -24,7 +25,6 @@ export function GarageDetailClient({ garage }: { garage: Garage }) {
   );
   const bestFloor = bestFloorForGarage(garage);
   const totalOpen = openSpotsForGarage(garage);
-  const dirHref = directionsUrl(garage);
 
   return (
     <div className="min-h-dvh pb-28 bg-[var(--color-bg)]">
@@ -131,23 +131,18 @@ export function GarageDetailClient({ garage }: { garage: Garage }) {
           </div>
         </motion.div>
 
-        {/* CTAs */}
+        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, delay: 0.24 }}
-          className="space-y-3"
         >
-          <a href={dirHref} target="_blank" rel="noopener" className="block">
+          <Link href={`/navigate/${garage.id}`} className="block">
             <Button variant="primary" size="lg" className="w-full">
               <Navigation className="w-5 h-5" />
               Navigate
             </Button>
-          </a>
-          <Button variant="outline" size="lg" className="w-full">
-            <Bookmark className="w-5 h-5" />
-            Set as Backup
-          </Button>
+          </Link>
         </motion.div>
       </main>
 

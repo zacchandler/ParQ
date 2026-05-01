@@ -20,7 +20,7 @@ export default function AlertsPage() {
 
   return (
     <div className="min-h-dvh pb-28 bg-[var(--color-bg)]">
-      <AppHeader showSearch />
+      <AppHeader />
 
       <main className="px-5 pt-4 space-y-5">
         {/* Morning insight */}

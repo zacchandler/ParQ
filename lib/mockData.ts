@@ -12,7 +12,10 @@ export interface Garage {
   floorOccupancy: number[];
   displaySpots: number;
   totalSpots: number;
-  /** Real lat/lng for the Leaflet map */
+  /**
+   * Real OpenStreetMap-sourced coordinates of the actual UM Coral Gables
+   * parking garages. Verified via Overpass API query for amenity=parking.
+   */
   lat: number;
   lng: number;
 }
@@ -50,8 +53,8 @@ export const currentUser = {
 };
 
 /**
- * Real University of Miami Coral Gables campus parking garages.
- * Coordinates are approximate (within campus footprint).
+ * REAL University of Miami Coral Gables campus parking garages.
+ * Coordinates pulled from OpenStreetMap via Overpass API (amenity=parking, name~Garage).
  * Spot counts are mock data for the demo.
  */
 export const garages: Garage[] = [
@@ -60,70 +63,70 @@ export const garages: Garage[] = [
     name: "Pavia Garage",
     shortName: "Pavia",
     campus: "Coral Gables Campus",
-    street: "1230 Stanford Drive",
+    street: "Stanford Drive",
     permitZone: "Pink",
     floors: 6,
     floorOccupancy: [0.95, 0.87, 0.72, 0.41, 0.65, 0.58],
     displaySpots: 7,
     totalSpots: 320,
-    lat: 25.7197,
-    lng: -80.2782,
+    lat: 25.7178519,
+    lng: -80.2761741,
   },
   {
     id: "mahoney",
-    name: "Mahoney/Pearson Garage",
+    name: "Mahoney-Pearson Garage",
     shortName: "Mahoney",
     campus: "Coral Gables Campus",
-    street: "1101 Stanford Drive",
+    street: "Memorial Drive",
     permitZone: "Orange",
     floors: 5,
     floorOccupancy: [0.62, 0.58, 0.71, 0.49, 0.55],
     displaySpots: 32,
     totalSpots: 220,
-    lat: 25.7223,
-    lng: -80.2818,
+    lat: 25.7192723,
+    lng: -80.2729427,
   },
   {
-    id: "merrick",
-    name: "Merrick Garage",
-    shortName: "Merrick",
+    id: "levante",
+    name: "Levante Garage",
+    shortName: "Levante",
     campus: "Coral Gables Campus",
-    street: "1551 Brescia Avenue",
+    street: "Levante Avenue",
     permitZone: "Pink",
     floors: 5,
     floorOccupancy: [0.88, 0.74, 0.55, 0.62, 0.81],
     displaySpots: 5,
     totalSpots: 240,
-    lat: 25.7180,
-    lng: -80.2811,
+    lat: 25.7175461,
+    lng: -80.27654,
   },
   {
     id: "ponce",
     name: "Ponce de Leon Garage",
     shortName: "Ponce",
     campus: "Coral Gables Campus",
-    street: "1535 Levante Avenue",
+    street: "Ponce de Leon Boulevard",
     permitZone: "Yellow",
     floors: 4,
     floorOccupancy: [1.0, 0.99, 0.97, 0.96],
     displaySpots: 0,
     totalSpots: 180,
-    lat: 25.7160,
-    lng: -80.2785,
+    lat: 25.7125796,
+    lng: -80.2811622,
   },
   {
-    id: "stanford",
-    name: "Stanford Residential Garage",
-    shortName: "Stanford",
-    campus: "Coral Gables Campus",
-    street: "1200 Stanford Drive",
+    id: "scodella",
+    name: "UV Scodella Garage",
+    shortName: "Scodella",
+    campus: "University Village",
+    street: "Scodella Avenue",
     permitZone: "Silver",
     floors: 4,
     floorOccupancy: [0.55, 0.48, 0.62, 0.40],
     displaySpots: 38,
     totalSpots: 180,
-    lat: 25.7211,
-    lng: -80.2780,
+    lat: 25.7121889,
+    lng: -80.2853194,
   },
 ];
 
@@ -192,7 +195,7 @@ export const schedule: ScheduleClass[] = [
     startTime: "03:30 PM",
     endTime: "04:45 PM",
     location: "Flipse Building",
-    recommendedGarageId: "merrick",
+    recommendedGarageId: "levante",
   },
   {
     id: "mth162",
@@ -220,7 +223,7 @@ export const initialAlerts: ParqAlert[] = [
     id: "a2",
     kind: "success",
     title: "Parked Confirmed",
-    body: "Your vehicle is secured in Stanford Garage, Spot #42.",
+    body: "Your vehicle is secured in Pavia Garage, Spot #42.",
     minutesAgo: 15,
     isNew: true,
   },
@@ -249,21 +252,16 @@ export const morningInsight = {
 export const upcomingParkings = [
   {
     label: "TOMORROW · 8:30 AM",
-    location: "Merrick Garage — Level 2",
-    garageId: "merrick",
+    location: "Mahoney-Pearson — Level 2",
+    garageId: "mahoney",
   },
 ];
 
 /** UM Coral Gables campus center for the map */
-export const CAMPUS_CENTER: [number, number] = [25.7195, -80.2796];
+export const CAMPUS_CENTER: [number, number] = [25.7177, -80.2779];
 
 /** Returns a small wobble for live-updating occupancy */
 export function wobble(seed: number): number {
   const t = Date.now() / 1000;
   return Math.sin(t * 0.7 + seed) * 0.03 + Math.sin(t * 0.21 + seed * 2) * 0.012;
-}
-
-/** Build a Google Maps directions deeplink to a garage */
-export function directionsUrl(g: Garage): string {
-  return `https://www.google.com/maps/dir/?api=1&destination=${g.lat},${g.lng}&travelmode=driving`;
 }

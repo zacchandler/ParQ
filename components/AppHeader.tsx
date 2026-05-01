@@ -14,7 +14,7 @@ interface AppHeaderProps {
 
 export function AppHeader({ showBack = false, showSearch = false, hasNotifBadge = true }: AppHeaderProps) {
   return (
-    <header className="sticky top-0 z-30 glass border-b border-white/40">
+    <header className="sticky top-0 z-[1090] glass border-b border-white/40">
       <div className="safe-top" />
       <div className="flex items-center justify-between h-14 px-5">
         <div className="flex items-center gap-2.5">

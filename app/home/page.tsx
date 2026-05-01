@@ -8,7 +8,7 @@ import {
 import { AppHeader } from "@/components/AppHeader";
 import { BottomNav } from "@/components/BottomNav";
 import { LiveMap } from "@/components/LiveMap";
-import { upcomingParkings, garages, directionsUrl } from "@/lib/mockData";
+import { upcomingParkings, garages } from "@/lib/mockData";
 
 export default function HomePage() {
   const next = garages.find((g) => g.id === "pavia")!;
@@ -30,10 +30,6 @@ export default function HomePage() {
             <br />
             <span className="font-serif italic font-normal text-[var(--color-purple-600)]">Alex.</span>
           </h1>
-          <p className="mt-3 text-[14px] text-[var(--color-mute)] leading-snug">
-            Your next class — <span className="font-semibold text-[var(--color-ink)]">CIM 101</span> — starts at{" "}
-            <span className="num-mono font-bold text-[var(--color-coral-500)]">11:00</span>.
-          </p>
         </motion.section>
 
         {/* === Hero "Leave at" card === */}
@@ -64,23 +60,13 @@ export default function HomePage() {
               Floor 4 of <span className="font-semibold opacity-100">Pavia Garage</span> will have{" "}
               <span className="font-bold text-[var(--color-coral-400)]">9 open Pink Zone spots</span> when you arrive.
             </p>
-            <div className="mt-5 flex gap-2">
-              <Link
-                href={`/garage/${next.id}`}
-                className="flex-1 h-12 rounded-2xl bg-white text-[var(--color-purple-700)] font-bold text-[14px] flex items-center justify-center gap-1.5 shadow-md hover:bg-cream-50 transition"
-              >
-                Reserve Path
-                <ArrowUpRight className="w-4 h-4" />
-              </Link>
-              <a
-                href={directionsUrl(next)}
-                target="_blank"
-                rel="noopener"
-                className="h-12 px-5 rounded-2xl glass-dark text-white font-semibold text-[14px] flex items-center justify-center gap-1.5 hover:bg-white/10 transition"
-              >
-                Directions
-              </a>
-            </div>
+            <Link
+              href={`/navigate/${next.id}`}
+              className="mt-5 w-full h-12 rounded-2xl bg-white text-[var(--color-purple-700)] font-bold text-[14px] flex items-center justify-center gap-1.5 shadow-md hover:bg-cream-50 transition"
+            >
+              Get Directions
+              <ArrowUpRight className="w-4 h-4" />
+            </Link>
           </div>
         </motion.div>
 

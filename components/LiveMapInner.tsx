@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import L from "leaflet";
 import { CAMPUS_CENTER, garages, openSpotsForGarage, statusForGarage, type Garage } from "@/lib/mockData";
+import { useUserLocation } from "@/lib/geolocation";
 
 interface Props {
   highlight?: string;
@@ -24,7 +25,9 @@ const statusColor: Record<string, string> = {
 export function LiveMapInner({ highlight, zoom = 16, interactive = true }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
+  const userMarkerRef = useRef<L.Marker | null>(null);
   const router = useRouter();
+  const loc = useUserLocation();
 
   useEffect(() => {
     if (!ref.current || mapRef.current) return;
@@ -66,25 +69,35 @@ export function LiveMapInner({ highlight, zoom = 16, interactive = true }: Props
       });
     });
 
-    // Subtle "you are here" dot near the campus center
+    return () => {
+      map.remove();
+      mapRef.current = null;
+      userMarkerRef.current = null;
+    };
+  }, [highlight, zoom, interactive, router]);
+
+  // Place / move the "you are here" dot when geolocation resolves
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || loc.status !== "ready") return;
+
     const here = L.divIcon({
       className: "parq-marker",
       html: `
         <div style="position:relative;width:18px;height:18px;">
           <span style="position:absolute;inset:0;border-radius:9999px;background:#3B82F6;opacity:0.3;animation:pulse-ring 2s ease-out infinite;"></span>
           <span style="position:absolute;inset:4px;border-radius:9999px;background:#3B82F6;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></span>
-        </div>
-      `,
+        </div>`,
       iconSize: [18, 18],
       iconAnchor: [9, 9],
     });
-    L.marker(CAMPUS_CENTER, { icon: here, interactive: false }).addTo(map);
 
-    return () => {
-      map.remove();
-      mapRef.current = null;
-    };
-  }, [highlight, zoom, interactive, router]);
+    if (userMarkerRef.current) {
+      userMarkerRef.current.setLatLng(loc.coords);
+    } else {
+      userMarkerRef.current = L.marker(loc.coords, { icon: here, interactive: false }).addTo(map);
+    }
+  }, [loc]);
 
   return (
     <div className="relative w-full h-full">
