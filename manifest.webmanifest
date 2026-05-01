@@ -1,0 +1,25 @@
+{
+  "name": "ParQ — UM Parking Intelligence",
+  "short_name": "ParQ",
+  "description": "Never circle Pavia again. AI parking intelligence for the University of Miami.",
+  "start_url": "/ParQ/home/",
+  "scope": "/ParQ/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FAF6FC",
+  "theme_color": "#6B2FB3",
+  "icons": [
+    {
+      "src": "/ParQ/logo.jpeg",
+      "sizes": "192x192 512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "/ParQ/logo.jpeg",
+      "sizes": "any",
+      "type": "image/jpeg",
+      "purpose": "maskable"
+    }
+  ]
+}

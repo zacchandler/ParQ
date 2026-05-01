@@ -1,0 +1,22 @@
+1:"$Sreact.fragment"
+2:I[5953,["440","static/chunks/440-22fbaf325d396c2d.js","177","static/chunks/app/layout-9760e5f7fd3cfdc1.js"],"PhoneFrame"]
+3:I[9766,[],""]
+4:I[8924,[],""]
+5:I[2619,["619","static/chunks/619-ba102abea3e3d0e4.js","345","static/chunks/app/not-found-08cb0ebea5464721.js"],""]
+6:I[1959,[],"ClientPageRoot"]
+7:I[928,["440","static/chunks/440-22fbaf325d396c2d.js","619","static/chunks/619-ba102abea3e3d0e4.js","688","static/chunks/688-9a723236dd2a8ee6.js","836","static/chunks/836-8aa0ed54349c05ce.js","636","static/chunks/app/profile/page-327e08397e3b6aff.js"],"default"]
+a:I[4431,[],"OutletBoundary"]
+c:I[5278,[],"AsyncMetadataOutlet"]
+e:I[4431,[],"ViewportBoundary"]
+10:I[4431,[],"MetadataBoundary"]
+11:"$Sreact.suspense"
+13:I[7150,[],""]
+:HL["/ParQ/_next/static/css/54aaa4605fd45177.css","style"]
+0:{"P":null,"b":"HZq5NVq8r_J1vxy6dFnqI","p":"/ParQ","c":["","profile",""],"i":false,"f":[[["",{"children":["profile",{"children":["__PAGE__",{}]}]},"$undefined","$undefined",true],["",["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/ParQ/_next/static/css/54aaa4605fd45177.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]],["$","html",null,{"lang":"en","children":["$","body",null,{"children":["$","$L2",null,{"children":["$","$L3",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L4",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","div",null,{"className":"min-h-dvh flex flex-col items-center justify-center text-center px-8 gap-3","children":[["$","div",null,{"className":"text-7xl font-extrabold text-purple-600 italic","children":"404"}],["$","p",null,{"className":"text-lg font-semibold text-gray-700","children":"That spot isn't on the map."}],["$","$L5",null,{"href":"/home","className":"mt-4 inline-flex items-center justify-center h-12 px-6 rounded-2xl bg-magenta-500 text-white font-bold","children":"Back to Home"}]]}],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}]}]}]]}],{"children":["profile",["$","$1","c",{"children":[null,["$","$L3",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L4",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":["__PAGE__",["$","$1","c",{"children":[["$","$L6",null,{"Component":"$7","searchParams":{},"params":{},"promises":["$@8","$@9"]}],null,["$","$La",null,{"children":["$Lb",["$","$Lc",null,{"promise":"$@d"}]]}]]}],{},null,false]},null,false]},null,false],["$","$1","h",{"children":[null,[["$","$Le",null,{"children":"$Lf"}],null],["$","$L10",null,{"children":["$","div",null,{"hidden":true,"children":["$","$11",null,{"fallback":null,"children":"$L12"}]}]}]]}],false]],"m":"$undefined","G":["$13",[]],"s":false,"S":true}
+8:{}
+9:"$0:f:0:1:2:children:2:children:1:props:children:0:props:params"
+f:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no"}],["$","meta","2",{"name":"theme-color","content":"#1B0438"}]]
+b:null
+14:I[622,[],"IconMark"]
+d:{"metadata":[["$","title","0",{"children":"ParQ — Real-time campus parking"}],["$","meta","1",{"name":"description","content":"AI parking intelligence for college campuses. Find your spot before you park."}],["$","link","2",{"rel":"manifest","href":"/ParQ/manifest.webmanifest","crossOrigin":"$undefined"}],["$","meta","3",{"name":"mobile-web-app-capable","content":"yes"}],["$","meta","4",{"name":"apple-mobile-web-app-title","content":"ParQ"}],["$","meta","5",{"name":"apple-mobile-web-app-status-bar-style","content":"default"}],["$","link","6",{"rel":"icon","href":"/ParQ/logo.jpeg"}],["$","link","7",{"rel":"apple-touch-icon","href":"/ParQ/logo.jpeg"}],["$","$L14","8",{}]],"error":null,"digest":"$undefined"}
+12:"$d:metadata"
