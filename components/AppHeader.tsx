@@ -24,16 +24,15 @@ export function AppHeader({ showBack = false, showSearch = false, hasNotifBadge 
             </Link>
           )}
           <Link href="/home" className="flex items-center gap-2" aria-label="ParQ home">
-            <div className="relative w-7 h-7 rounded-lg overflow-hidden bg-gradient-to-br from-[var(--color-purple-500)] to-[var(--color-purple-700)] flex items-center justify-center shadow-sm">
+            <div className="relative w-7 h-7 rounded-lg overflow-hidden bg-[#621EA4] shadow-sm">
               <Image
-                src={asset("/logo.svg")}
+                src={asset("/logo.jpeg")}
                 alt=""
-                width={28}
-                height={28}
-                className="w-full h-full object-cover"
+                width={56}
+                height={56}
+                className="absolute inset-0 w-full h-full object-cover"
                 unoptimized
               />
-              <span className="absolute font-display font-extrabold text-white text-[14px]">P</span>
             </div>
             <span className="wordmark text-[20px] -tracking-[0.04em]">ParQ</span>
           </Link>

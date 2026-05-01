@@ -229,22 +229,17 @@ function OAuthButton({
 }
 
 function LogoSlot() {
-  // Falls back to a brand mark if /public/logo.svg isn't present.
   return (
     <div className="flex items-center gap-2">
-      <div className="relative w-9 h-9 rounded-xl overflow-hidden bg-gradient-to-br from-[var(--color-purple-500)] to-[var(--color-purple-700)] shadow-[var(--shadow-soft)] flex items-center justify-center">
+      <div className="relative w-9 h-9 rounded-xl overflow-hidden bg-[#621EA4] shadow-[var(--shadow-soft)]">
         <Image
-          src={asset("/logo.svg")}
+          src={asset("/logo.jpeg")}
           alt="ParQ"
-          width={36}
-          height={36}
+          width={72}
+          height={72}
           className="absolute inset-0 w-full h-full object-cover"
-          onError={(e) => {
-            (e.currentTarget as HTMLImageElement).style.display = "none";
-          }}
           unoptimized
         />
-        <span className="absolute text-white font-display font-extrabold text-[18px] tracking-tighter">P</span>
       </div>
       <span className="wordmark text-[22px]">ParQ</span>
     </div>

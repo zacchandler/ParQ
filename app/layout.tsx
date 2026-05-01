@@ -8,7 +8,10 @@ export const metadata: Metadata = {
   description: "AI parking intelligence for college campuses. Find your spot before you park.",
   manifest: `${basePath}/manifest.webmanifest`,
   appleWebApp: { capable: true, statusBarStyle: "default", title: "ParQ" },
-  icons: { icon: `${basePath}/icon.svg` },
+  icons: {
+    icon: `${basePath}/logo.jpeg`,
+    apple: `${basePath}/logo.jpeg`,
+  },
 };
 
 export const viewport: Viewport = {

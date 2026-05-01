@@ -10,10 +10,16 @@
   "theme_color": "#6B2FB3",
   "icons": [
     {
-      "src": "/ParQ/icon.svg",
+      "src": "/ParQ/logo.jpeg",
+      "sizes": "192x192 512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "/ParQ/logo.jpeg",
       "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/jpeg",
+      "purpose": "maskable"
     }
   ]
 }
