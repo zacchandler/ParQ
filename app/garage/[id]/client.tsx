@@ -10,14 +10,16 @@ import { Button } from "@/components/ui/Button";
 import { bestFloorForGarage, openSpotsForGarage, wobble, type Garage } from "@/lib/mockData";
 
 export function GarageDetailClient({ garage }: { garage: Garage }) {
+  const [mounted, setMounted] = useState(false);
   const [tick, setTick] = useState(0);
   useEffect(() => {
+    setMounted(true);
     const id = setInterval(() => setTick((t) => t + 1), 4000);
     return () => clearInterval(id);
   }, []);
 
   const liveOccupancy = garage.floorOccupancy.map((o, i) =>
-    Math.max(0.05, Math.min(0.99, o + wobble(i + tick * 0.1)))
+    mounted ? Math.max(0.05, Math.min(0.99, o + wobble(i + tick * 0.1))) : o
   );
   const bestFloor = bestFloorForGarage(garage);
   const totalOpen = openSpotsForGarage(garage);

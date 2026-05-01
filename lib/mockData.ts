@@ -60,7 +60,7 @@ export const garages: Garage[] = [
     street: "Stanford Drive",
     permitZone: "Pink",
     floors: 6,
-    floorOccupancy: [0.95, 0.87, 0.72, 0.41, 0.65, 0.30],
+    floorOccupancy: [0.95, 0.87, 0.72, 0.41, 0.65, 0.58],
     displaySpots: 7,
     totalSpots: 320,
     pinX: 32,
