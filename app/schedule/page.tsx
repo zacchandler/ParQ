@@ -6,16 +6,16 @@ import { motion, AnimatePresence } from "motion/react";
 import { Clock, MapPin, Plus, X, ParkingCircle } from "lucide-react";
 import { AppHeader } from "@/components/AppHeader";
 import { BottomNav } from "@/components/BottomNav";
-import { CampusMap } from "@/components/CampusMap";
+import { LiveMap } from "@/components/LiveMap";
 import { Button } from "@/components/ui/Button";
 import { schedule as initialSchedule, type ScheduleClass } from "@/lib/mockData";
 
 const categoryStyles: Record<ScheduleClass["category"], { color: string; bg: string }> = {
-  SCIENCE: { color: "#FF6B35", bg: "#FFEEDB" },
-  COMM: { color: "#E91E63", bg: "#FCE4EC" },
-  ARTS: { color: "#6B2FB3", bg: "#F0E6F8" },
-  SOCIAL: { color: "#10B981", bg: "#D1FAE5" },
-  LOGIC: { color: "#3B82F6", bg: "#DBEAFE" },
+  SCIENCE: { color: "#E85829", bg: "#FFE6D8" },
+  COMM: { color: "#DD1D5C", bg: "#FCE0EA" },
+  ARTS: { color: "#5E1FA8", bg: "#EADBF6" },
+  SOCIAL: { color: "#1AAF6E", bg: "#D7F3E5" },
+  LOGIC: { color: "#1F5BB5", bg: "#DAE7F8" },
 };
 
 export default function SchedulePage() {
@@ -23,18 +23,22 @@ export default function SchedulePage() {
   const [showAdd, setShowAdd] = useState(false);
 
   return (
-    <div className="min-h-dvh pb-24 bg-[var(--color-bg)]">
+    <div className="min-h-dvh pb-28 bg-[var(--color-bg)]">
       <AppHeader />
 
-      <main className="px-5 pt-5 space-y-5">
+      <main className="px-5 pt-4 space-y-5">
         <motion.section
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <h1 className="text-[34px] leading-[1.1] font-extrabold tracking-tight">Daily Schedule</h1>
-          <p className="mt-1 text-[15px] text-gray-600 max-w-xs">
-            Manage your classes and secure your parking spots for today.
+          <p className="text-[12px] font-semibold tracking-widest text-[var(--color-mute)] uppercase">Today · Tuesday</p>
+          <h1 className="mt-1 font-display text-[40px] leading-[0.95] font-extrabold tracking-[-0.04em]">
+            Daily<br />
+            <span className="font-serif italic font-normal text-[var(--color-purple-600)]">schedule</span>
+          </h1>
+          <p className="mt-3 text-[14px] text-[var(--color-mute)] max-w-[300px]">
+            Manage your classes and secure parking before each one.
           </p>
         </motion.section>
 
@@ -44,14 +48,17 @@ export default function SchedulePage() {
           ))}
         </ul>
 
-        {/* Mid-section map */}
+        {/* Mid-section live map */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, delay: 0.2 }}
-          className="aspect-[16/9] relative rounded-2xl overflow-hidden"
+          className="aspect-[16/9] relative rounded-2xl overflow-hidden ring-1 ring-[var(--color-line)] shadow-[var(--shadow-soft)]"
         >
-          <CampusMap variant="compact" showLegend={false} showLabel="Next Class starts in 45m" />
+          <LiveMap interactive={false} />
+          <div className="absolute bottom-3 left-3 px-3 py-1.5 rounded-full glass-dark text-white text-[11px] font-bold tracking-wide">
+            Next Class · CIM 101 · in 45m
+          </div>
         </motion.div>
 
         <ul className="space-y-3">
@@ -66,10 +73,10 @@ export default function SchedulePage() {
           transition={{ delay: 0.4 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => setShowAdd(true)}
-          className="w-full rounded-2xl border-2 border-dashed border-purple-300 bg-purple-50/50 p-6 flex flex-col items-center gap-2 text-purple-600 hover:bg-purple-100/50 transition-colors"
+          className="w-full rounded-2xl border-2 border-dashed border-[var(--color-purple-300)] bg-purple-50/40 p-6 flex flex-col items-center gap-2 text-[var(--color-purple-700)] hover:bg-purple-100/40 transition-colors"
         >
           <Plus className="w-6 h-6" strokeWidth={2.4} />
-          <span className="text-[15px] font-bold">+ Add Custom Event</span>
+          <span className="font-display font-extrabold text-[15px]">+ Add Custom Event</span>
         </motion.button>
       </main>
 
@@ -86,25 +93,26 @@ function ClassCard({ cls, index }: { cls: ScheduleClass; index: number }) {
   const styles = categoryStyles[cls.category];
   return (
     <motion.li
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, delay: 0.05 + index * 0.05 }}
-      className="rounded-2xl bg-white border border-[var(--color-border)] p-5 shadow-[var(--shadow-card)]"
+      className="rounded-2xl bg-white border border-[var(--color-line)] p-5 shadow-[var(--shadow-soft)]"
     >
       <span
-        className="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-bold tracking-wider"
+        className="inline-block px-2.5 py-1 rounded-md text-[10px] font-bold tracking-widest"
         style={{ background: styles.bg, color: styles.color }}
       >
         {cls.category}
       </span>
-      <h3 className="mt-2 text-[22px] font-extrabold leading-tight">{cls.code}</h3>
-      <div className="mt-2 space-y-1.5 text-[14px] text-gray-700">
+      <h3 className="mt-3 font-display text-[26px] font-extrabold leading-tight tracking-tight">{cls.code}</h3>
+      <p className="text-[13px] text-[var(--color-mute)]">{cls.name}</p>
+      <div className="mt-3 space-y-1.5 text-[13px] text-[var(--color-ink-soft)]">
         <div className="flex items-center gap-2">
-          <Clock className="w-4 h-4 text-gray-500" />
-          <span>{cls.startTime} – {cls.endTime}</span>
+          <Clock className="w-4 h-4 text-[var(--color-mute)]" />
+          <span className="num-mono">{cls.startTime} – {cls.endTime}</span>
         </div>
         <div className="flex items-center gap-2">
-          <MapPin className="w-4 h-4 text-gray-500" />
+          <MapPin className="w-4 h-4 text-[var(--color-mute)]" />
           <span>{cls.location}</span>
         </div>
       </div>
@@ -128,7 +136,7 @@ function AddEventSheet({ onClose, onAdd }: { onClose: () => void; onAdd: (c: Sch
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/50"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm"
       onClick={onClose}
     >
       <motion.div
@@ -137,55 +145,33 @@ function AddEventSheet({ onClose, onAdd }: { onClose: () => void; onAdd: (c: Sch
         exit={{ y: "100%" }}
         transition={{ type: "spring", stiffness: 300, damping: 32 }}
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-[440px] bg-white rounded-t-3xl p-6 pb-10"
+        className="w-full max-w-[440px] bg-white rounded-t-[28px] p-6 pb-10"
       >
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-xl font-extrabold">Add Custom Event</h3>
+          <h3 className="font-display text-2xl font-extrabold tracking-tight">Add Event</h3>
           <button onClick={onClose} aria-label="Close" className="p-2 -mr-2 rounded-full hover:bg-gray-100">
             <X className="w-5 h-5" />
           </button>
         </div>
         <div className="space-y-3">
           <Field label="Event name">
-            <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Study group"
-              className="w-full h-12 px-4 rounded-xl border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none"
-            />
+            <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Study group" className="w-full h-12 px-4 rounded-xl border border-[var(--color-line)] focus:border-[var(--color-purple-500)] focus:ring-4 focus:ring-purple-100 outline-none transition" />
           </Field>
           <Field label="Location on campus">
-            <input
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              placeholder="Otto G. Richter Library"
-              className="w-full h-12 px-4 rounded-xl border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none"
-            />
+            <input value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Otto G. Richter Library" className="w-full h-12 px-4 rounded-xl border border-[var(--color-line)] focus:border-[var(--color-purple-500)] focus:ring-4 focus:ring-purple-100 outline-none transition" />
           </Field>
           <Field label="Time">
-            <input
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
-              className="w-full h-12 px-4 rounded-xl border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none"
-            />
+            <input value={time} onChange={(e) => setTime(e.target.value)} className="w-full h-12 px-4 rounded-xl border border-[var(--color-line)] focus:border-[var(--color-purple-500)] focus:ring-4 focus:ring-purple-100 outline-none transition" />
           </Field>
         </div>
         <Button
-          variant="purple"
-          size="lg"
-          className="w-full mt-6"
+          variant="purple" size="lg" className="w-full mt-6"
           onClick={() => {
             if (!name) return;
             onAdd({
-              id: `c-${Date.now()}`,
-              code: name.toUpperCase(),
-              name,
-              category: "ARTS",
-              days: "Today",
-              startTime: time,
-              endTime: time,
-              location: location || "Campus",
-              recommendedGarageId: "pavia",
+              id: `c-${Date.now()}`, code: name.toUpperCase(), name, category: "ARTS",
+              days: "Today", startTime: time, endTime: time,
+              location: location || "Campus", recommendedGarageId: "pavia",
             });
           }}
         >
@@ -199,8 +185,8 @@ function AddEventSheet({ onClose, onAdd }: { onClose: () => void; onAdd: (c: Sch
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="text-[13px] font-semibold text-gray-700">{label}</span>
-      <div className="mt-1.5">{children}</div>
+      <span className="block px-1 text-[11px] font-bold tracking-widest text-[var(--color-ink-soft)] uppercase mb-1.5">{label}</span>
+      {children}
     </label>
   );
 }

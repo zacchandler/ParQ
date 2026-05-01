@@ -2,113 +2,156 @@
 
 import Link from "next/link";
 import { motion } from "motion/react";
-import { Sparkles, Calendar, Search, Compass, Settings, ChevronRight, Building2 } from "lucide-react";
+import {
+  Calendar, Compass, Search, Settings, ChevronRight, Building2, Clock4, MapPin, Mic, ArrowUpRight,
+} from "lucide-react";
 import { AppHeader } from "@/components/AppHeader";
 import { BottomNav } from "@/components/BottomNav";
-import { CampusMap } from "@/components/CampusMap";
-import { Button } from "@/components/ui/Button";
-import { upcomingParkings } from "@/lib/mockData";
+import { LiveMap } from "@/components/LiveMap";
+import { upcomingParkings, garages, directionsUrl } from "@/lib/mockData";
 
 export default function HomePage() {
+  const next = garages.find((g) => g.id === "pavia")!;
+
   return (
-    <div className="min-h-dvh pb-24 bg-[var(--color-bg)]">
+    <div className="min-h-dvh pb-28 bg-[var(--color-bg)] relative">
       <AppHeader />
 
-      <main className="px-5 pt-5 space-y-6">
-        {/* Greeting */}
+      <main className="px-5 pt-4 space-y-7">
+        {/* === Greeting === */}
         <motion.section
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <h1 className="text-[34px] leading-[1.1] font-extrabold tracking-tight text-[var(--color-text)]">
-            Good morning, Alex!
+          <p className="text-[12px] font-semibold tracking-widest text-[var(--color-mute)] uppercase">Tuesday · Apr 30</p>
+          <h1 className="mt-1 font-display text-[40px] leading-[0.95] font-extrabold tracking-[-0.04em] text-[var(--color-ink)]">
+            Good morning,
+            <br />
+            <span className="font-serif italic font-normal text-[var(--color-purple-600)]">Alex.</span>
           </h1>
-          <p className="mt-1 text-[15px] text-gray-600">
-            Your next class starts at <span className="font-bold text-orange-500">11:00 AM</span>
+          <p className="mt-3 text-[14px] text-[var(--color-mute)] leading-snug">
+            Your next class — <span className="font-semibold text-[var(--color-ink)]">CIM 101</span> — starts at{" "}
+            <span className="num-mono font-bold text-[var(--color-coral-500)]">11:00</span>.
           </p>
         </motion.section>
 
-        {/* Leave-in alert */}
+        {/* === Hero "Leave at" card === */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.08 }}
+          transition={{ duration: 0.45, delay: 0.05 }}
+          className="relative overflow-hidden rounded-[var(--radius-tile)] p-6 text-white shadow-[var(--shadow-deep)]"
+          style={{
+            background:
+              "radial-gradient(120% 120% at 0% 0%, #7E3DC6 0%, #461382 55%, #1B0438 100%)",
+          }}
         >
-          <div className="rounded-2xl bg-purple-50 border border-purple-100 p-5 shadow-sm">
-            <div className="flex items-start gap-4">
-              <div className="shrink-0 w-12 h-12 rounded-2xl bg-purple-200/70 flex items-center justify-center">
-                <Sparkles className="w-6 h-6 text-purple-700" strokeWidth={2.4} />
-              </div>
-              <div className="min-w-0">
-                <h2 className="text-[20px] font-bold text-[var(--color-text)] leading-tight">
-                  Leave in 14 minutes
-                </h2>
-                <p className="mt-1 text-[14px] text-gray-700 leading-snug">
-                  Floor 4 of Pavia will have <span className="font-bold text-orange-500">9 open spots</span>
-                </p>
-              </div>
+          {/* Aurora */}
+          <div className="absolute -top-12 -right-12 w-56 h-56 rounded-full bg-coral-500/40 blur-3xl" />
+          <div className="absolute -bottom-16 -left-12 w-56 h-56 rounded-full bg-purple-300/30 blur-3xl" />
+          <div className="relative">
+            <div className="flex items-center gap-2">
+              <span className="px-2.5 py-1 rounded-full glass-dark text-[10px] font-bold tracking-widest">
+                AI · DEPART IN
+              </span>
             </div>
-            <Link href="/garage/pavia" className="block mt-4">
-              <Button variant="primary" size="lg" className="w-full">
-                View Details
-              </Button>
-            </Link>
+            <div className="mt-3 flex items-baseline gap-2">
+              <span className="num-display text-[72px] leading-none">14</span>
+              <span className="text-[20px] font-semibold opacity-80">min</span>
+            </div>
+            <p className="mt-1 text-[14px] opacity-85 leading-snug max-w-[260px]">
+              Floor 4 of <span className="font-semibold opacity-100">Pavia Garage</span> will have{" "}
+              <span className="font-bold text-[var(--color-coral-400)]">9 open Pink Zone spots</span> when you arrive.
+            </p>
+            <div className="mt-5 flex gap-2">
+              <Link
+                href={`/garage/${next.id}`}
+                className="flex-1 h-12 rounded-2xl bg-white text-[var(--color-purple-700)] font-bold text-[14px] flex items-center justify-center gap-1.5 shadow-md hover:bg-cream-50 transition"
+              >
+                Reserve Path
+                <ArrowUpRight className="w-4 h-4" />
+              </Link>
+              <a
+                href={directionsUrl(next)}
+                target="_blank"
+                rel="noopener"
+                className="h-12 px-5 rounded-2xl glass-dark text-white font-semibold text-[14px] flex items-center justify-center gap-1.5 hover:bg-white/10 transition"
+              >
+                Directions
+              </a>
+            </div>
           </div>
         </motion.div>
 
-        {/* Live Parking Map */}
+        {/* === Real Live Map === */}
         <motion.section
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.16 }}
+          transition={{ duration: 0.45, delay: 0.12 }}
         >
           <div className="flex items-end justify-between mb-3">
-            <h2 className="text-[22px] font-extrabold text-[var(--color-text)] tracking-tight">Live Parking Map</h2>
-            <span className="text-[13px] font-semibold text-purple-600">Coral Gables Campus</span>
+            <h2 className="font-display text-[24px] font-extrabold tracking-[-0.02em]">
+              Live <span className="font-serif italic font-normal text-[var(--color-purple-600)]">map</span>
+            </h2>
+            <Link href="/schedule" className="text-[12px] font-semibold text-[var(--color-purple-600)] tracking-wide">
+              VIEW ALL →
+            </Link>
           </div>
-          <div className="aspect-square">
-            <CampusMap variant="full" />
+          <div className="aspect-[4/5] rounded-2xl overflow-hidden ring-1 ring-[var(--color-line)] shadow-[var(--shadow-soft)]">
+            <LiveMap />
           </div>
         </motion.section>
 
-        {/* Quick action grid */}
+        {/* === Quick actions, editorial spacing === */}
+        <motion.section
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.18 }}
+        >
+          <h2 className="font-display text-[24px] font-extrabold tracking-[-0.02em] mb-3">
+            Quick <span className="font-serif italic font-normal text-[var(--color-purple-600)]">actions</span>
+          </h2>
+          <div className="grid grid-cols-2 gap-3">
+            <ActionTile icon={Calendar} label="Schedule" sub="5 classes" href="/schedule" />
+            <ActionTile icon={Search} label="Find a spot" sub="5 garages" href={`/garage/${next.id}`} />
+            <ActionTile icon={Mic} label="Voice" sub="ParQ AI" href="/voice" />
+            <ActionTile icon={Settings} label="Settings" sub="& account" href="/profile" />
+          </div>
+        </motion.section>
+
+        {/* === Upcoming === */}
         <motion.section
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, delay: 0.24 }}
-          className="grid grid-cols-2 gap-3"
-        >
-          <QuickAction icon={Calendar} label="My Schedule" href="/schedule" />
-          <QuickAction icon={Search} label="Find Parking" href="/garage/pavia" />
-          <QuickAction icon={Compass} label="Directions" href="/garage/pavia" />
-          <QuickAction icon={Settings} label="Settings" href="/profile" />
-        </motion.section>
-
-        {/* Upcoming Parkings */}
-        <motion.section
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.32 }}
         >
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-[22px] font-extrabold text-[var(--color-text)] tracking-tight">Upcoming Parkings</h2>
-            <button className="text-gray-400 px-2" aria-label="More options">···</button>
+            <h2 className="font-display text-[24px] font-extrabold tracking-[-0.02em]">
+              Upcoming <span className="font-serif italic font-normal text-[var(--color-purple-600)]">parkings</span>
+            </h2>
+            <button className="text-[var(--color-mute)]" aria-label="More">···</button>
           </div>
-          {upcomingParkings.map((p) => (
-            <Link key={p.label} href={`/garage/${p.garageId}`}>
-              <div className="rounded-2xl bg-white border border-[var(--color-border)] p-4 flex items-center gap-4 shadow-[var(--shadow-card)] hover:shadow-md transition-shadow">
-                <div className="shrink-0 w-12 h-12 rounded-xl bg-pink-100 flex items-center justify-center">
-                  <Building2 className="w-6 h-6 text-magenta-500" strokeWidth={2.4} />
+          {upcomingParkings.map((p) => {
+            const garage = garages.find((g) => g.id === p.garageId)!;
+            return (
+              <Link key={p.label} href={`/garage/${garage.id}`}>
+                <div className="rounded-2xl bg-white border border-[var(--color-line)] p-4 flex items-center gap-4 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-glass)] transition-shadow">
+                  <div className="shrink-0 w-12 h-12 rounded-2xl bg-purple-50 border border-purple-100 flex items-center justify-center">
+                    <Building2 className="w-6 h-6 text-[var(--color-purple-600)]" strokeWidth={2} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] font-bold tracking-widest text-[var(--color-coral-500)]">{p.label}</p>
+                    <p className="mt-0.5 text-[15px] font-semibold tracking-tight">{p.location}</p>
+                    <p className="mt-0.5 text-[12px] text-[var(--color-mute)] flex items-center gap-1">
+                      <MapPin className="w-3 h-3" /> {garage.street}
+                    </p>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-[var(--color-mute)]" />
                 </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-[11px] font-bold tracking-wider text-orange-500">{p.label}</p>
-                  <p className="text-[15px] font-semibold text-[var(--color-text)] mt-0.5">{p.location}</p>
-                </div>
-                <ChevronRight className="w-5 h-5 text-gray-300" />
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </motion.section>
       </main>
 
@@ -117,23 +160,29 @@ export default function HomePage() {
   );
 }
 
-function QuickAction({
+function ActionTile({
   icon: Icon,
   label,
+  sub,
   href,
 }: {
   icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
   label: string;
+  sub: string;
   href: string;
 }) {
   return (
     <Link href={href}>
       <motion.div
         whileTap={{ scale: 0.97 }}
-        className="rounded-2xl bg-purple-50 border border-purple-100 p-5 flex flex-col items-center justify-center gap-2 hover:bg-purple-100/70 transition-colors aspect-[1.6]"
+        className="relative overflow-hidden rounded-2xl bg-white border border-[var(--color-line)] p-4 hover:border-[var(--color-purple-200)] transition-colors shadow-[var(--shadow-soft)]"
       >
-        <Icon className="w-7 h-7 text-purple-600" strokeWidth={2} />
-        <span className="text-[15px] font-bold text-[var(--color-text)]">{label}</span>
+        <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-purple-50" />
+        <Icon className="relative w-6 h-6 text-[var(--color-purple-600)]" strokeWidth={2} />
+        <div className="relative mt-6">
+          <div className="font-display font-extrabold text-[18px] tracking-tight leading-none">{label}</div>
+          <div className="mt-1 text-[11px] font-semibold text-[var(--color-mute)] tracking-wide">{sub}</div>
+        </div>
       </motion.div>
     </Link>
   );
