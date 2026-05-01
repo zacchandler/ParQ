@@ -10,6 +10,10 @@ export interface Garage {
   floors: number;
   /** 0..1 occupancy per floor (index 0 = floor 1) */
   floorOccupancy: number[];
+  /** Display spot count shown on the map pin */
+  displaySpots: number;
+  /** Total spots across all floors */
+  totalSpots: number;
   /** Coordinates within the SVG viewBox (0..100) */
   pinX: number;
   pinY: number;
@@ -56,7 +60,9 @@ export const garages: Garage[] = [
     street: "Stanford Drive",
     permitZone: "Pink",
     floors: 6,
-    floorOccupancy: [0.95, 0.72, 0.58, 0.41, 0.65, 0.30],
+    floorOccupancy: [0.95, 0.87, 0.72, 0.41, 0.65, 0.30],
+    displaySpots: 7,
+    totalSpots: 320,
     pinX: 32,
     pinY: 28,
   },
@@ -68,7 +74,9 @@ export const garages: Garage[] = [
     street: "Levante Avenue",
     permitZone: "Pink",
     floors: 5,
-    floorOccupancy: [0.88, 0.74, 0.55, 0.42, 0.61],
+    floorOccupancy: [0.88, 0.74, 0.55, 0.62, 0.81],
+    displaySpots: 5,
+    totalSpots: 240,
     pinX: 64,
     pinY: 26,
   },
@@ -80,7 +88,9 @@ export const garages: Garage[] = [
     street: "Stanford Drive",
     permitZone: "Yellow",
     floors: 4,
-    floorOccupancy: [1.0, 0.97, 0.95, 0.91],
+    floorOccupancy: [1.0, 0.99, 0.97, 0.96],
+    displaySpots: 0,
+    totalSpots: 180,
     pinX: 26,
     pinY: 64,
   },
@@ -92,27 +102,22 @@ export const garages: Garage[] = [
     street: "Mahoney/Pearson Drive",
     permitZone: "Orange",
     floors: 5,
-    floorOccupancy: [0.42, 0.38, 0.51, 0.29, 0.35],
+    floorOccupancy: [0.62, 0.58, 0.71, 0.49, 0.55],
+    displaySpots: 32,
+    totalSpots: 220,
     pinX: 70,
     pinY: 66,
   },
 ];
 
 export function statusForGarage(g: Garage): GarageStatus {
-  const free = g.floorOccupancy.reduce((sum, o) => sum + (1 - o), 0);
-  const totalSpots = g.floors * 50;
-  const openSpots = Math.round(free * 50);
-  if (openSpots <= 3) return "full";
-  if (openSpots <= 12) return "limited";
+  if (g.displaySpots <= 1) return "full";
+  if (g.displaySpots <= 12) return "limited";
   return "plenty";
 }
 
 export function openSpotsForGarage(g: Garage): number {
-  // Approximate: each floor has ~50 spots
-  return Math.max(
-    0,
-    Math.round(g.floorOccupancy.reduce((sum, o) => sum + (1 - o) * 50, 0))
-  );
+  return g.displaySpots;
 }
 
 export function bestFloorForGarage(g: Garage): number {

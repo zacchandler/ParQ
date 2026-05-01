@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { garages, openSpotsForGarage, statusForGarage, type Garage } from "@/lib/mockData";
 
 interface CampusMapProps {
@@ -18,6 +19,8 @@ const statusFill: Record<string, string> = {
 };
 
 export function CampusMap({ highlight, variant = "full", showLegend = true, showLabel }: CampusMapProps) {
+  const router = useRouter();
+  const onSelect = (id: string) => router.push(`/garage/${id}`);
   return (
     <div className="relative w-full overflow-hidden rounded-2xl bg-[#1a0d2e] border border-purple-200">
       <svg viewBox="0 0 100 100" className="w-full h-full block" preserveAspectRatio="xMidYMid slice">
@@ -102,7 +105,7 @@ export function CampusMap({ highlight, variant = "full", showLegend = true, show
 
         {/* Garage Pins */}
         {garages.map((g) => (
-          <GaragePin key={g.id} garage={g} highlighted={highlight === g.id} variant={variant} />
+          <GaragePin key={g.id} garage={g} highlighted={highlight === g.id} variant={variant} onSelect={onSelect} />
         ))}
 
         {/* Subtle vignette */}
@@ -146,7 +149,7 @@ export function CampusMap({ highlight, variant = "full", showLegend = true, show
   );
 }
 
-function GaragePin({ garage, highlighted, variant }: { garage: Garage; highlighted: boolean; variant: string }) {
+function GaragePin({ garage, highlighted, variant, onSelect }: { garage: Garage; highlighted: boolean; variant: string; onSelect: (id: string) => void }) {
   const status = statusForGarage(garage);
   const open = openSpotsForGarage(garage);
   const fill = statusFill[status];
@@ -154,29 +157,23 @@ function GaragePin({ garage, highlighted, variant }: { garage: Garage; highlight
   const labelText = isFull ? "Full" : `${open} spots`;
 
   return (
-    <Link href={`/garage/${garage.id}`}>
+    <g transform={`translate(${garage.pinX} ${garage.pinY})`}>
       <motion.g
-        initial={{ scale: 0, y: 4 }}
-        animate={{ scale: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.1 + Math.random() * 0.3 }}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        transform={`translate(${garage.pinX} ${garage.pinY})`}
-        style={{ cursor: "pointer", transformOrigin: "center" }}
-        filter="url(#pinShadow)"
+        initial={{ opacity: 0, y: -6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: "spring", stiffness: 220, damping: 18, delay: 0.15 + Math.random() * 0.25 }}
+        style={{ cursor: "pointer" }}
+        onClick={() => onSelect(garage.id)}
       >
-        {/* Pin shape */}
-        <path d="M 0 -7 C -3.6 -7 -6 -4.5 -6 -1.5 C -6 2 0 8 0 8 C 0 8 6 2 6 -1.5 C 6 -4.5 3.6 -7 0 -7 Z" fill={fill} />
-        <circle cx="0" cy="-1.8" r="2" fill="white" />
-        {/* Floating label */}
+        {/* Floating label (above pin) */}
         {variant !== "thumb" && (
-          <g transform="translate(0 -14)">
-            <rect x="-13" y="-5" width="26" height="6.4" rx="3.2" fill={highlighted ? "#C9184A" : "white"} />
+          <g transform="translate(0 -10)">
+            <rect x="-13" y="-5" width="26" height="6.4" rx="3.2" fill={highlighted ? "#C9184A" : "white"} stroke="#0001" strokeWidth="0.15" />
             <text
               x="0"
               y="-0.5"
               textAnchor="middle"
-              fontSize="3.4"
+              fontSize="3.2"
               fontWeight="700"
               fill={highlighted ? "white" : "#1A1A1A"}
               style={{ fontFamily: "Inter, sans-serif" }}
@@ -185,12 +182,18 @@ function GaragePin({ garage, highlighted, variant }: { garage: Garage; highlight
             </text>
           </g>
         )}
+        {/* Pin shape */}
+        <g filter="url(#pinShadow)">
+          <path d="M 0 -7 C -3.6 -7 -6 -4.5 -6 -1.5 C -6 2 0 8 0 8 C 0 8 6 2 6 -1.5 C 6 -4.5 3.6 -7 0 -7 Z" fill={fill} />
+          <circle cx="0" cy="-1.8" r="2" fill="white" />
+        </g>
         {/* Spot count below */}
         {variant === "full" && (
-          <g transform="translate(0 14)">
+          <g transform="translate(0 12)">
+            <rect x="-9" y="-2.6" width="18" height="4.8" rx="2.4" fill="white" stroke="#0001" strokeWidth="0.15" />
             <text
               x="0"
-              y="0"
+              y="0.8"
               textAnchor="middle"
               fontSize="2.8"
               fontWeight="700"
@@ -202,7 +205,7 @@ function GaragePin({ garage, highlighted, variant }: { garage: Garage; highlight
           </g>
         )}
       </motion.g>
-    </Link>
+    </g>
   );
 }
 
